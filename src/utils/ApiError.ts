@@ -1,6 +1,7 @@
 class ApiError extends Error {
   statusCode: number;
   success: boolean;
+
   constructor(statusCode = 500, message = "Internal Server Error") {
     super(message);
     this.message = message;

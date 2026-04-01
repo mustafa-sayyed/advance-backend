@@ -5,8 +5,10 @@ import {
   getUserService,
   updateUserService,
 } from "../models/user.models.js";
+import ApiError from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import type { Request, Response, NextFunction } from "express";
+import httpStatusCodes from "../utils/httpsStatusCodes.js";
 
 const getAllUsers = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -20,7 +22,7 @@ const getUserById = asyncHandler(
     const { id } = req.params;
     const user = await getUserService(id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      throw new ApiError(httpStatusCodes.NOT_FOUND, "User not found");
     }
     res.status(200).json(user);
   },
@@ -32,7 +34,7 @@ const createuser = asyncHandler(
     const user = await createUserService(name, email);
 
     if (!user) {
-      return res.status(400).json({ message: "Failed to create user" });
+      throw new ApiError(httpStatusCodes.BAD_REQUEST, "Failed to create user");
     }
 
     res.status(201).json(user);
@@ -46,7 +48,7 @@ const updateUser = asyncHandler(
     const user = await updateUserService(id, name, email);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      throw new ApiError(httpStatusCodes.NOT_FOUND, "User not found");
     }
 
     res.status(200).json(user);
@@ -59,7 +61,7 @@ const deleteUser = asyncHandler(
     const user = await deleteUserService(id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      throw new ApiError(httpStatusCodes.NOT_FOUND, "User not found");
     }
 
     res.status(200).json({ message: "User deleted successfully" });

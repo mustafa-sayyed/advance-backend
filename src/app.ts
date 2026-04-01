@@ -15,11 +15,6 @@ import { checkDbConnection } from "./db/index.js";
 app.use("/api/users", userRoutes);
 
 
-
-// Global Error Handler
-app.use(globalErrorHandler);
-
-
 // Health Check Endpoints
 app.get("/health", (req, res) => {
   res.json({ message: "Working very fine..." });
@@ -37,5 +32,11 @@ app.get("/health/db", async (req, res) => {
     });
   }
 });
+
+
+
+// Global Error Handler
+app.use(globalErrorHandler);
+
 
 export default app;
