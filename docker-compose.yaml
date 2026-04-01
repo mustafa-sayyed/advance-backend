@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=mustafa
+      - POSTGRES_PASSWORD=mustafa@2429
+      - POSTGRES_DB=test_db
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/18/docker
+  
+  adminer:
+    image: adminer
+    container_name: postgres_admin
+    restart: always
+    ports:
+      - 8080:8080
+    
+
+
+volumes:
+  pgdata:
